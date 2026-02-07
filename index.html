@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Promise Day 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+text-align:center;
+background:linear-gradient(135deg,#ffd1dc,#ffe6ea,#fff0f5);
+overflow:hidden;
+}
+
+h1{
+font-family:'Dancing Script',cursive;
+font-size:46px;
+color:#ff4d88;
+margin-top:30px;
+}
+
+/* envelope */
+.envelope{
+width:220px;
+height:150px;
+background:#ff4d88;
+margin:40px auto;
+position:relative;
+border-radius:10px;
+cursor:pointer;
+}
+
+.envelope:before{
+content:"";
+position:absolute;
+top:-75px;
+left:0;
+border-left:110px solid transparent;
+border-right:110px solid transparent;
+border-bottom:75px solid #ff4d88;
+transition:0.5s;
+}
+
+.envelope.open:before{
+transform:rotateX(180deg);
+}
+
+/* letter */
+.letter{
+display:none;
+background:white;
+padding:25px;
+width:280px;
+margin:auto;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+font-size:20px;
+color:#a61e4d;
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
+background:#ff4d88;
+color:white;
+border-radius:20px;
+cursor:pointer;
+}
+
+/* floating hearts */
+.heart{
+position:absolute;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+from{transform:translateY(100vh);}
+to{transform:translateY(-10vh);}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>💌 Happy Promise Day</h1>
+
+<p>Click envelope to read my promises 😏</p>
+
+<div class="envelope" id="envelope"></div>
+
+<div class="letter" id="letter">
+<div id="promiseText"></div>
+<button id="nextBtn">Next Promise 💕</button>
+</div>
+
+<script>
+
+const envelope=document.getElementById("envelope");
+const letter=document.getElementById("letter");
+const promiseText=document.getElementById("promiseText");
+const nextBtn=document.getElementById("nextBtn");
+
+const promises=[
+"I promise to make you smile every day 😊",
+"I promise to stand by you always ❤️",
+"I promise to listen, support, and care 💕",
+"I promise to make beautiful memories together ✨"
+];
+
+let index=0;
+
+/* typewriter effect */
+function typeWriter(text){
+promiseText.innerHTML="";
+let i=0;
+function typing(){
+if(i<text.length){
+promiseText.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,40);
+}
+}
+typing();
+}
+
+/* open envelope */
+envelope.addEventListener("click",()=>{
+envelope.classList.add("open");
+letter.style.display="block";
+typeWriter(promises[index]);
+});
+
+/* next promise button */
+nextBtn.addEventListener("click",()=>{
+index++;
+if(index>=promises.length)index=0;
+typeWriter(promises[index]);
+});
+
+/* floating hearts */
+setInterval(()=>{
+const heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"vw";
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),6000);
+},700);
+
+</script>
+
+</body>
+</html>
