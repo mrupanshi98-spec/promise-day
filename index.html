@@ -10,60 +10,59 @@
 
 <style>
 
+/* BODY CENTER ALIGN */
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-text-align:center;
 background:linear-gradient(135deg,#ffd1dc,#ffe6ea,#fff0f5);
 overflow:hidden;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+text-align:center;
 }
 
+/* HEADING */
 h1{
 font-family:'Dancing Script',cursive;
 font-size:46px;
 color:#ff4d88;
-margin-top:30px;
+margin-bottom:10px;
 }
 
-/* envelope */
+/* ENVELOPE IMAGE */
 .envelope{
-width:220px;
-height:150px;
-background:#ff4d88;
-margin:40px auto;
-position:relative;
-border-radius:10px;
+width:260px;
 cursor:pointer;
+transition:0.4s;
+filter: drop-shadow(0px 10px 20px rgba(0,0,0,0.25));
 }
 
-.envelope:before{
-content:"";
-position:absolute;
-top:-75px;
-left:0;
-border-left:110px solid transparent;
-border-right:110px solid transparent;
-border-bottom:75px solid #ff4d88;
-transition:0.5s;
+.envelope:hover{
+transform:scale(1.05);
 }
 
-.envelope.open:before{
-transform:rotateX(180deg);
-}
-
-/* letter */
+/* LETTER CARD */
 .letter{
 display:none;
 background:white;
 padding:25px;
 width:280px;
-margin:auto;
+margin-top:20px;
 border-radius:15px;
 box-shadow:0 10px 20px rgba(0,0,0,0.2);
 font-size:20px;
 color:#a61e4d;
+
+opacity:0;
+transform:translateY(20px);
+transition:0.4s;
 }
 
+/* BUTTON */
 button{
 margin-top:15px;
 padding:10px 20px;
@@ -74,7 +73,7 @@ border-radius:20px;
 cursor:pointer;
 }
 
-/* floating hearts */
+/* FLOATING HEARTS */
 .heart{
 position:absolute;
 animation:float 6s linear infinite;
@@ -91,10 +90,10 @@ to{transform:translateY(-10vh);}
 <body>
 
 <h1>💌 Happy Promise Day</h1>
-
 <p>Click envelope to read my promises 😏</p>
 
-<div class="envelope" id="envelope"></div>
+<!-- YOUR ENVELOPE IMAGE -->
+<img src="envelope.png" class="envelope" id="envelope">
 
 <div class="letter" id="letter">
 <div id="promiseText"></div>
@@ -112,12 +111,15 @@ const promises=[
 "I promise to make you smile every day 😊",
 "I promise to stand by you always ❤️",
 "I promise to listen, support, and care 💕",
+"I promise to keep annoying you forever 💕",
+"I promise to share my food (sometimes) 😊",
 "I promise to make beautiful memories together ✨"
 ];
 
 let index=0;
+let opened=false;
 
-/* typewriter effect */
+/* TYPEWRITER EFFECT */
 function typeWriter(text){
 promiseText.innerHTML="";
 let i=0;
@@ -131,21 +133,31 @@ setTimeout(typing,40);
 typing();
 }
 
-/* open envelope */
+/* OPEN ENVELOPE (ONLY ONCE) */
 envelope.addEventListener("click",()=>{
-envelope.classList.add("open");
+
+if(opened) return;
+opened=true;
+
 letter.style.display="block";
+
+setTimeout(()=>{
+letter.style.opacity="1";
+letter.style.transform="translateY(0)";
+},10);
+
 typeWriter(promises[index]);
+
 });
 
-/* next promise button */
+/* NEXT PROMISE */
 nextBtn.addEventListener("click",()=>{
 index++;
 if(index>=promises.length)index=0;
 typeWriter(promises[index]);
 });
 
-/* floating hearts */
+/* FLOATING HEARTS BACKGROUND */
 setInterval(()=>{
 const heart=document.createElement("div");
 heart.className="heart";
